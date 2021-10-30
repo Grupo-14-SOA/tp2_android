@@ -40,7 +40,23 @@ public class VerificacionCodSMSActivity extends AppCompatActivity {
                     //Cierro la actividad actual
                     finish();
                 }
+                else{
+                    // Ejecuto la actividad del login
+                    this.lanzarVerificarUserLogin();
+
+                }
             }
         });
     }
+
+    public void setPresenter(VerificacionSMS presenter){
+        this.presenter = presenter;
+    }
+
+    public void lanzarVerificarUserLogin(){
+        Intent intent = new Intent(this, VerificacionLoginUsuario.class);
+        this.startActivity(intent);
+    }
+
+
 }
