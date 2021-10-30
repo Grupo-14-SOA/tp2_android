@@ -41,4 +41,5 @@ public class SMSManager {
         smsManager.sendTextMessage(numCelular, null, this.codSMS, null, null);
     }
 
+    public boolean verificarCodIngresado(){return this.codIngresado.equals(this.codSMS)}
 }

@@ -31,4 +31,10 @@ public class VerificacionSMS {
     public void enviarSMS(String numCelular, boolean permisoConcedido) {
         smsManager.enviarSMS(numCelular, permisoConcedido);
     }
+
+    public void setCodIngresado(String codigoIngresado){
+        this.smsManager.setCodIngresado(codigoIngresado);
+    }
+
+    public boolean verificarCodIngresado(){return this.smsManager.verificarCodIngresado()}
 }

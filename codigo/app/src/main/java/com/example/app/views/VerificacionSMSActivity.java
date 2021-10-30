@@ -41,12 +41,18 @@ public class VerificacionSMSActivity extends AppCompatActivity {
                 }
                 else{
                     presenter.enviarSMS(numCelular.getText().toString(), permisoConcedido);
-                    //lanzarVerificarCodigo();
+                    lanzarVerificarCodigo();
                 }
             }
         });
     }
+    public void lanzarVerificarCodigo(){
 
+        Intent intent = new Intent(this, VerificacionCodigoActivity.class);
+        intent.setPresentador(this.presenter);
+        this.startActivity(intent);
+
+    }
     /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
