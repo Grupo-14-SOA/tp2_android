@@ -2,10 +2,7 @@ package com.example.app.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -14,23 +11,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.app.R;
-import com.example.app.presenters.VerificacionSMS;
+import com.example.app.presenters.EnvioSMS;
 
-public class VerificacionSMSActivity extends AppCompatActivity {
+public class EnvioSMSActivity extends AppCompatActivity {
 
-    private VerificacionSMS presenter;
+    private static final int REQUEST_SEND_SMS = 1;
+
+    private EnvioSMS presenter;
     private Button buttonEnviarSMS;
     private EditText numCelular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verificacion_sms);
+        setContentView(R.layout.activity_envio_sms);
 
         buttonEnviarSMS = findViewById(R.id.buttonEnviarSMS);
         numCelular = findViewById(R.id.editTextNumCelular);
 
-        presenter = new VerificacionSMS(this);
+        presenter = new EnvioSMS(this);
 
         boolean permisoConcedido = presenter.solicitarPermisoSMS();
 
@@ -47,13 +46,12 @@ public class VerificacionSMSActivity extends AppCompatActivity {
         });
     }
     public void lanzarVerificarCodigo(){
-
-        Intent intent = new Intent(this, VerificacionCodigoActivity.class);
-        intent.setPresentador(this.presenter);
+        Intent intent = new Intent(this, VerificacionCodSMSActivity.class);
+        intent.putExtra("codEnviado", presenter.getCodEnviado());
         this.startActivity(intent);
-
     }
-    /*@Override
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_SEND_SMS) {
@@ -63,5 +61,5 @@ public class VerificacionSMSActivity extends AppCompatActivity {
                 Toast.makeText((getApplicationContext()), "Permiso a enviar SMS denegado", Toast.LENGTH_LONG).show();
             }
         }
-    }*/
+    }
 }

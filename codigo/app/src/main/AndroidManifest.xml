@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
-            android:name=".views.VerificacionSMSActivity"
+            android:name=".views.EnvioSMSActivity"
             android:exported="true" />
         <activity
-            android:name=".views.VerificacionCodigoActivity"
+            android:name=".views.VerificacionCodSMSActivity"
             android:exported="true" />
         <activity
             android:name=".views.MainActivity"

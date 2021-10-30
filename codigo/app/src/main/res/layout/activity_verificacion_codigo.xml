@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.VerificacionCodigoActivity">
+    tools:context=".views.VerificacionCodSMSActivity">
 
     <TextView
         android:id="@+id/textViewInfoCodigo"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="300dp"
-        android:text="Enviar código"
+        android:text="Validar código"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

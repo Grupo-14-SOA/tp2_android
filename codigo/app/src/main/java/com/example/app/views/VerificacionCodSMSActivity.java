@@ -1,12 +1,7 @@
 package com.example.app.views;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,27 +9,33 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.app.R;
-import com.example.app.presenters.VerificacionSMS;
+import com.example.app.presenters.VerificacionCodSMS;
 
-public class VerificacionCodigoActivity extends AppCompatActivity {
+public class VerificacionCodSMSActivity extends AppCompatActivity {
 
-    private VerificacionSMS presenter;
+    private VerificacionCodSMS presenter;
     private Button buttonValidar;
     private EditText codigoIngresado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verificacion_sms);
+        setContentView(R.layout.activity_verificacion_codigo);
 
         buttonValidar = findViewById(R.id.buttonValidar);
         codigoIngresado = findViewById(R.id.editTextCodigoIngresado);
 
+        String codEnviado = getIntent().getStringExtra("codEnviado");
+
+        presenter = new VerificacionCodSMS(this);
+
+        presenter.setCodEnviado(codEnviado);
+
         buttonValidar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                this.presenter.setCodIngresado(codigoIngresado.getText().toString());
+                presenter.setCodIngresado(codigoIngresado.getText().toString());
                 // Verifico el codigo que ingreso el usuario
-                if(!this.presenter.verificarCodIngresado()){
+                if(!presenter.verificarCodIngresado()){
                     Toast.makeText(getApplicationContext(), "Codigo incorrecto, vuelva a generar generar el codigo", Toast.LENGTH_LONG).show();
                     //Cierro la actividad actual
                     finish();
@@ -42,12 +43,4 @@ public class VerificacionCodigoActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void setPresenter(VerificacionSMS presenter){
-        this.presenter = presenter;
-    }
-
-
-
-
 }

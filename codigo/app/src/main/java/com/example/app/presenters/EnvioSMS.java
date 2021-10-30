@@ -7,17 +7,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.app.models.SMSManager;
-import com.example.app.views.VerificacionSMSActivity;
+import com.example.app.views.EnvioSMSActivity;
 
-public class VerificacionSMS {
+public class EnvioSMS {
 
     private static final int REQUEST_SEND_SMS = 1;
 
-    private SMSManager smsManager;
-    private VerificacionSMSActivity view;
+    private SMSManager model;
+    private EnvioSMSActivity view;
 
-    public VerificacionSMS(VerificacionSMSActivity view) {
-        this.smsManager = new SMSManager();
+    public EnvioSMS(EnvioSMSActivity view) {
+        this.model = new SMSManager();
         this.view = view;
     }
 
@@ -29,12 +29,11 @@ public class VerificacionSMS {
     }
 
     public void enviarSMS(String numCelular, boolean permisoConcedido) {
-        smsManager.enviarSMS(numCelular, permisoConcedido);
+        this.model.enviarSMS(numCelular, permisoConcedido);
     }
 
-    public void setCodIngresado(String codigoIngresado){
-        this.smsManager.setCodIngresado(codigoIngresado);
+    public String getCodEnviado() {
+        return this.model.getCodSMS();
     }
 
-    public boolean verificarCodIngresado(){return this.smsManager.verificarCodIngresado()}
 }

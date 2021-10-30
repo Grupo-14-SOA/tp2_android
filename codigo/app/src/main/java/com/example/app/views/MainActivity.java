@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void iniciarVerificacionSMSActivity() {
-        Intent intent = new Intent(this, VerificacionSMSActivity.class);
+        Intent intent = new Intent(this, EnvioSMSActivity.class);
         this.startActivity(intent);
     }
 

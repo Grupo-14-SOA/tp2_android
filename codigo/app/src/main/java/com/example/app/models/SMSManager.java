@@ -6,23 +6,17 @@ public class SMSManager {
 
     private static final int RANDOM_FACTOR_COD_SMS = 1000000;
 
-
-    private String numCelular;
     private String codIngresado;
     private String codSMS;
 
     public SMSManager() {}
 
-    public String getNumCelular() {
-        return numCelular;
+    public String getCodSMS() {
+        return codSMS;
     }
 
-    public void setNumCelular(String numCelular) {
-        this.numCelular = numCelular;
-    }
-
-    public String getCodIngresado() {
-        return codIngresado;
+    public void setCodSMS(String codSMS){
+        this.codSMS = codSMS;
     }
 
     public void setCodIngresado(String codIngresado) {
@@ -41,5 +35,7 @@ public class SMSManager {
         smsManager.sendTextMessage(numCelular, null, this.codSMS, null, null);
     }
 
-    public boolean verificarCodIngresado(){return this.codIngresado.equals(this.codSMS)}
+    public boolean verificarCodIngresado() {
+        return this.codIngresado.equals(this.codSMS);
+    }
 }
