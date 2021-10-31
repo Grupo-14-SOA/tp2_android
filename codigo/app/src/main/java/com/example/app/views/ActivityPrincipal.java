@@ -13,7 +13,7 @@ import com.example.app.presenters.ServiceCheckTokenExpiration;
 public class ActivityPrincipal extends AppCompatActivity {
 
     private Intent intentPrevio, intentServiceCheckTokenExpiration;
-    private String token, refresh_token;
+    private String token, refreshToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +22,10 @@ public class ActivityPrincipal extends AppCompatActivity {
 
         intentPrevio = getIntent();
         token = intentPrevio.getStringExtra("token");
-        refresh_token = intentPrevio.getStringExtra("refreshToken");
+        refreshToken = intentPrevio.getStringExtra("refresh_token");
 
         intentServiceCheckTokenExpiration = new Intent(this, ServiceCheckTokenExpiration.class);
-        intentServiceCheckTokenExpiration.putExtra("refresh_token", refresh_token);
+        intentServiceCheckTokenExpiration.putExtra("refresh_token", refreshToken);
 
         if (!isMyServiceRunning(ServiceCheckTokenExpiration.class))
             startService(intentServiceCheckTokenExpiration);

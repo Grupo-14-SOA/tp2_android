@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class User {
 
-    private static final String ENV = "TEST";
+    private static final String ENV = "PROD";
 
     private String email;
     private String pass;

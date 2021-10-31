@@ -66,11 +66,11 @@ public class VerificacionUserLoginActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void lanzarActivityPrincipal(String token, String refresh_token) {
+    public void lanzarActivityPrincipal(String token, String refreshToken) {
         // Método a ser llamado desde el presenter para ejecutar la siguiente actividad
         Intent intentActivityPrincipal = new Intent(this, ActivityPrincipal.class);
         intentActivityPrincipal.putExtra("token", token);
-        intentActivityPrincipal.putExtra("refresh_token", refresh_token);
+        intentActivityPrincipal.putExtra("refresh_token", refreshToken);
         startActivity(intentActivityPrincipal);
     }
 

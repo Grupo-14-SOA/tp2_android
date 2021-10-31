@@ -50,6 +50,10 @@
             android:name=".models.HTTPServiceSignup"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".presenters.ServiceCheckTokenExpiration"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

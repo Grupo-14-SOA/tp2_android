@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ public class RefrescarTokenActivity extends AppCompatActivity {
     private Intent intentPrevio, intentSalir, intentServiceCheckTokenExpiration, intentActivityPrincipal;
     private Button botonSalir, botonRefrescar;
     private RefrescarToken presenter;
-    private String refresh_token;
+    private String refreshToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,9 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         intentActivityPrincipal = new Intent(this, ActivityPrincipal.class);
 
         intentPrevio = getIntent();
-        refresh_token = intentPrevio.getStringExtra("refresh_token");
+        refreshToken = intentPrevio.getStringExtra("refresh_token");
 
-        presenter = new RefrescarToken(this, refresh_token);
+        presenter = new RefrescarToken(this, refreshToken);
 
         botonSalir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,12 @@ public class RefrescarTokenActivity extends AppCompatActivity {
     }
 
     public void mostrarToastMake(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Handler mainHandler = new Handler(getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -11,9 +11,9 @@ public class RefrescarToken {
     private RefrescarTokenActivity view;
     private RequestTask model;
 
-    public RefrescarToken(RefrescarTokenActivity view, String refresh_token) {
+    public RefrescarToken(RefrescarTokenActivity view, String refreshToken) {
         this.view = view;
-        this.model = new RequestTask(refresh_token, this);
+        this.model = new RequestTask(refreshToken, this);
     }
 
     public ConnectionManager getConnectionManager() {

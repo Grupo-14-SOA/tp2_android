@@ -23,19 +23,19 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
     private static final String URI = "http://so-unlam.net.ar";
     private static final String ENDPOINT = "/api/api/refresh";
 
-    protected String url, token, refresh_token;
+    protected String url, token, refreshToken;
     protected ConnectionManager connectionManager;
     protected JSONObject response;
     protected Exception exception;
     protected RefrescarToken caller;
 
-    public RequestTask(String refresh_token, RefrescarToken refrescarToken) {
+    public RequestTask(String refreshToken, RefrescarToken refrescarToken) {
         // Nombre del thread usado para debugging
         super();
         this.url = this.getUrl();
         this.exception = null;
         this.token = "";
-        this.refresh_token = refresh_token;
+        this.refreshToken = refreshToken;
         this.connectionManager = refrescarToken.getConnectionManager();
         this.caller = refrescarToken;
     }
@@ -50,7 +50,7 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        connection.setRequestProperty("Authorization",  "Bearer " + refresh_token);
+        connection.setRequestProperty("Authorization",  "Bearer " + refreshToken);
     }
 
     protected void PUT() {
@@ -89,7 +89,7 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
                 i.putExtra("success", true);
                 i.putExtra("mensaje", "Token actualizado");
                 i.putExtra("token", token);
-                i.putExtra("refresh_token", refresh_token);
+                i.putExtra("refresh_token", refreshToken);
                 caller.actualizarActivity(i);
             }
             else {
@@ -121,7 +121,7 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
             response = new JSONObject(responseBuffer.toString());
             Log.i("RESPONSE", response.toString());
             token = response.getString("token");
-            refresh_token = response.getString("token_refresh");
+            refreshToken = response.getString("token_refresh");
         }
     }
 

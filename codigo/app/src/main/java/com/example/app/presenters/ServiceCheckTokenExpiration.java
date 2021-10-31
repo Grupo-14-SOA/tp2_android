@@ -16,16 +16,16 @@ public class ServiceCheckTokenExpiration extends IntentService {
     private static final String class_name = ServiceCheckTokenExpiration.class.getSimpleName();
     private ScheduledExecutorService scheduler;
     private Intent intentRefresh;
-    private static final int INITIAL_DELAY = 15, PERIOD = 15;
+    private static final int INITIAL_DELAY = 1, PERIOD = 1;
 
     public ServiceCheckTokenExpiration() {
         super(class_name);
-        this.intentRefresh = new Intent(this, RefrescarTokenActivity.class);
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        intentRefresh = new Intent(this, RefrescarTokenActivity.class);
         intentRefresh.putExtra("refresh_token", intent.getStringExtra("refresh_token"));
         intentRefresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
