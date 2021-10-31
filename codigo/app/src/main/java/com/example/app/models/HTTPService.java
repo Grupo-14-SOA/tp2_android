@@ -25,7 +25,7 @@ public abstract class HTTPService extends IntentService {
     protected String url, token, refreshToken;
     protected ConnectionManager connectionManager;
     protected JSONObject request;
-    private Exception exception;
+    protected Exception exception;
 
     public HTTPService(String class_name) {
         // Nombre del thread usado para debugging
@@ -34,6 +34,7 @@ public abstract class HTTPService extends IntentService {
         this.exception = null;
         this.token = "";
         this.refreshToken = "";
+        this.connectionManager = new ConnectionManager(this);
     }
 
     public String getToken() {
@@ -42,31 +43,6 @@ public abstract class HTTPService extends IntentService {
 
     public String getRefreshToken() {
         return refreshToken;
-    }
-
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if(connectionManager.hayConexion()) {
-            try {
-                if (intent.hasExtra("jsonObject")) {
-                    request = new JSONObject(intent.getStringExtra("jsonObject"));
-                }
-                String[] response = POST(request);
-                token = response[0];
-                refreshToken = response[1];
-                stopSelf();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Handler mainHandler = new Handler(getMainLooper());
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "No existe conexion a internet", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
     }
 
     protected void setConnectionHeadersPOST(HttpURLConnection connection) throws ProtocolException {
@@ -78,7 +54,6 @@ public abstract class HTTPService extends IntentService {
 
     protected String[] POST(JSONObject request) {
         try {
-            connectionManager = new ConnectionManager(this);
             HttpURLConnection connection = connectionManager.abrirConexion(this.url);
             this.setConnectionHeadersPOST(connection);
 

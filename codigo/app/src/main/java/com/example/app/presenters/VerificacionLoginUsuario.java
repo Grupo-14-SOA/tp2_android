@@ -1,6 +1,8 @@
 package com.example.app.presenters;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 
 import com.example.app.models.HTTPServiceLogin;
@@ -9,9 +11,7 @@ import com.example.app.views.VerificacionUserLoginActivity;
 
 import org.json.JSONObject;
 
-public class VerificacionLoginUsuario {
-
-    private static final int REQUEST_SEND_SMS = 1;
+public class VerificacionLoginUsuario extends BroadcastReceiver {
 
     private User user;
     private VerificacionUserLoginActivity view;
@@ -40,10 +40,15 @@ public class VerificacionLoginUsuario {
         this.user.setPass(pass);
     }
 
-    public boolean logIn(){
+    public void logIn(){
         JSONObject req = this.user.getJSONForLogIn();
         this.intentServiceLogin.putExtra("jsonObject", req.toString());
         this.view.startService(this.intentServiceLogin);
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String mensaje= intent.getStringExtra("mensaje");
+        this.view.mostrarToastMake(mensaje);
+    }
 }
