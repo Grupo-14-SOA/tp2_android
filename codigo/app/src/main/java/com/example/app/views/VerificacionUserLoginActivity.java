@@ -51,17 +51,16 @@ public class VerificacionUserLoginActivity extends AppCompatActivity {
         });
     }
 
-    //Metodo que crea y configurar un broadcast receiver para comunicar el servicio que recibe los mensaje del servidor
-    //con la activity principal
     private void configurarBroadcastReciever()
     {
-        //se asocia(registra) la  accion RESPUESTA_OPERACION, para que cuando el Servicio de recepcion la ejecute
-        //se invoque automaticamente el OnRecive del objeto receiver
+        //Metodo que registra un broadcast receiver para comunicar el servicio que recibe los
+        //mensajes del servidor con el presenter de esta activity
+        //Se registra la  accion LOGIN_RESPONSE, para que cuando el servicio de login la ejecute
+        //se invoque automaticamente el OnRecive del presenter
         filtro = new IntentFilter("com.example.intentservice.intent.action.LOGIN_RESPONSE");
         filtro.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(presenter, filtro);
     }
-
 
     public void lanzarVerificarUserSignup(){
         Intent intent = new Intent(this, VerificacionUserSignupActivity.class);

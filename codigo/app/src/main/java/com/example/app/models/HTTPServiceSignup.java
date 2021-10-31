@@ -24,9 +24,7 @@ public class HTTPServiceSignup extends HTTPService{
                 if (intent.hasExtra("jsonObject")) {
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
-                String[] response = POST(request);
-                token = response[0];
-                refreshToken = response[1];
+                POST(request);
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
                     i.putExtra("success", false);
@@ -44,7 +42,7 @@ public class HTTPServiceSignup extends HTTPService{
                 else {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
                     i.putExtra("success", true);
-                    i.putExtra("mensaje", "Registración exitosa");
+                    i.putExtra("mensaje", "Usuario registrado exitosamente");
                     i.putExtra("token", token);
                     i.putExtra("refresh_token", refreshToken);
                     //Se envian los valores al bradcast reciever del presenter de login

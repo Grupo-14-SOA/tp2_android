@@ -24,9 +24,7 @@ public class HTTPServiceLogin extends HTTPService{
                 if (intent.hasExtra("jsonObject")) {
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
-                String[] response = POST(request);
-                token = response[0];
-                refreshToken = response[1];
+                POST(request);
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
                     i.putExtra("success", false);

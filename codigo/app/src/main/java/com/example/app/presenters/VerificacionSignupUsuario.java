@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.app.models.HTTPServiceLogin;
 import com.example.app.models.HTTPServiceSignup;
 import com.example.app.models.User;
 import com.example.app.views.VerificacionUserSignupActivity;
@@ -23,16 +22,8 @@ public class VerificacionSignupUsuario extends BroadcastReceiver {
         this.intentServiceSignup = new Intent(view, HTTPServiceSignup.class);
     }
 
-    public String getEmail() {
-        return this.user.getEmail();
-    }
-
-    public void setEmail(String mail) {
-        this.user.setEmail(mail);
-    }
-
-    public String getPass() {
-        return this.user.getPass();
+    public void setEmail(String email) {
+        this.user.setEmail(email);
     }
 
     public void setPass(String pass) {
@@ -60,6 +51,7 @@ public class VerificacionSignupUsuario extends BroadcastReceiver {
     }
 
     public void signUp(){
+        // Inicio el servicio de signup por http
         JSONObject req = this.user.getJSONForSignup();
         this.intentServiceSignup.putExtra("jsonObject", req.toString());
         this.view.startService(this.intentServiceSignup);
@@ -67,10 +59,12 @@ public class VerificacionSignupUsuario extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Método para recibir el resultado del servicio de signup
         boolean success = intent.getBooleanExtra("success", false);
         String mensaje = intent.getStringExtra("mensaje");
         this.view.mostrarToastMake(mensaje);
-        if (success){
+        // En caso de poder registrarme correctamente vuelvo a la actividad del login
+        if (success) {
             this.view.finish();
         }
     }

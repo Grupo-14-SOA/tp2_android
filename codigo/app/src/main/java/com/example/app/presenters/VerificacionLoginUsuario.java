@@ -1,7 +1,6 @@
 package com.example.app.presenters;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -24,16 +23,8 @@ public class VerificacionLoginUsuario extends BroadcastReceiver {
         this.intentServiceLogin = new Intent(view, HTTPServiceLogin.class);
     }
 
-    public String getEmail() {
-        return this.user.getEmail();
-    }
-
     public void setEmail(String email) {
         this.user.setEmail(email);
-    }
-
-    public String getPass() {
-        return this.user.getPass();
     }
 
     public void setPass(String pass) {
@@ -48,7 +39,12 @@ public class VerificacionLoginUsuario extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Método para recibir el resultado del servicio de login
+        boolean success = intent.getBooleanExtra("success", false);
         String mensaje= intent.getStringExtra("mensaje");
         this.view.mostrarToastMake(mensaje);
+        if (success) {
+            //Ejecuto método de llamado de siguiente activity
+        }
     }
 }

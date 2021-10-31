@@ -25,6 +25,7 @@ public abstract class HTTPService extends IntentService {
     protected String url, token, refreshToken;
     protected ConnectionManager connectionManager;
     protected JSONObject request;
+    protected JSONObject response;
     protected Exception exception;
 
     public HTTPService(String class_name) {
@@ -37,14 +38,6 @@ public abstract class HTTPService extends IntentService {
         this.connectionManager = new ConnectionManager(this);
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
     protected void setConnectionHeadersPOST(HttpURLConnection connection) throws ProtocolException {
         connection.setDoInput(true);
         connection.setDoOutput(true);
@@ -52,7 +45,7 @@ public abstract class HTTPService extends IntentService {
         connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
     }
 
-    protected String[] POST(JSONObject request) {
+    protected void POST(JSONObject request) {
         try {
             HttpURLConnection connection = connectionManager.abrirConexion(this.url);
             this.setConnectionHeadersPOST(connection);
@@ -61,49 +54,42 @@ public abstract class HTTPService extends IntentService {
             //modificar. Este paquete JSON se escribe en el campo body del mensaje POST
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
 
+            // Loggeo el request enviado en el POST
             Log.i("POST REQUEST", request.toString());
             wr.writeBytes(request.toString());
 
             wr.flush();
             wr.close();
 
-            //se envia el request al Servidor
+            //Se envia el request al Servidor
             connection.connect();
 
             //Se obtiene la respuesta que envio el Servidor ante el request
-            String[] parsedResponse = parseResponse(connection);
+            parseResponse(connection);
 
             connection.disconnect();
-
-            return parsedResponse;
 
         } catch (Exception e) {
             exception = e;
         }
-        return null;
     }
 
-    private String[] parseResponse(HttpURLConnection connection) throws IOException, JSONException {
-        String[] arrayReturn = new String[2];
+    private void parseResponse(HttpURLConnection connection) throws IOException, JSONException {
         if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer response = new StringBuffer();
+            StringBuffer responseBuffer = new StringBuffer();
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                responseBuffer.append(inputLine);
             }
             in.close();
 
-            JSONObject jsonResponse = new JSONObject(response.toString());
-            arrayReturn[0] = jsonResponse.getString("token");
-            arrayReturn[1] = jsonResponse.getString("token_refresh");
-
-            return arrayReturn;
+            response = new JSONObject(responseBuffer.toString());
+            Log.i("RESPONSE", response.toString());
+            token = response.getString("token");
+            refreshToken = response.getString("token_refresh");
         }
-        arrayReturn[0] = "";
-        arrayReturn[1] = "";
-        return arrayReturn;
     }
 
     /**
