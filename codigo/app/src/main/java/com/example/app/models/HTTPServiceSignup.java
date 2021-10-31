@@ -25,23 +25,25 @@ public class HTTPServiceSignup extends HTTPService{
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
                 POST(request);
+                token = response.getString("token");
+                refreshToken = response.getString("token_refresh");
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
-                    i.putExtra("success", false);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Error en envio de request");
                     //Se envian los valores al bradcast reciever del presenter de login
                     sendBroadcast(i);
                 }
-                else if (token.isEmpty()) {
+                else if (!success) {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
-                    i.putExtra("success", false);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Error en datos de request");
                     //Se envian los valores al bradcast reciever del presenter de login
                     sendBroadcast(i);
                 }
                 else {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
-                    i.putExtra("success", true);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Usuario registrado exitosamente");
                     i.putExtra("token", token);
                     i.putExtra("refresh_token", refreshToken);
@@ -54,7 +56,7 @@ public class HTTPServiceSignup extends HTTPService{
             }
         } else {
             Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
-            i.putExtra("success", false);
+            i.putExtra("success", success);
             i.putExtra("mensaje", "No hay conexión a Internet");
             //Se envian los valores al bradcast reciever del presenter de login
             sendBroadcast(i);

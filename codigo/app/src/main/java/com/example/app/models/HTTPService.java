@@ -1,12 +1,7 @@
 package com.example.app.models;
 
 import android.app.IntentService;
-import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +22,7 @@ public abstract class HTTPService extends IntentService {
     protected JSONObject request;
     protected JSONObject response;
     protected Exception exception;
+    protected boolean success;
 
     public HTTPService(String class_name) {
         // Nombre del thread usado para debugging
@@ -35,6 +31,7 @@ public abstract class HTTPService extends IntentService {
         this.exception = null;
         this.token = "";
         this.refreshToken = "";
+        this.success = false;
         this.connectionManager = new ConnectionManager(this);
     }
 
@@ -75,7 +72,8 @@ public abstract class HTTPService extends IntentService {
     }
 
     private void parseResponse(HttpURLConnection connection) throws IOException, JSONException {
-        if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+        int code = connection.getResponseCode();
+        if(code == HttpURLConnection.HTTP_OK || code == HttpURLConnection.HTTP_CREATED){
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuffer responseBuffer = new StringBuffer();
             String inputLine;
@@ -86,9 +84,8 @@ public abstract class HTTPService extends IntentService {
             in.close();
 
             response = new JSONObject(responseBuffer.toString());
+            success = response.getBoolean("success");
             Log.i("RESPONSE", response.toString());
-            token = response.getString("token");
-            refreshToken = response.getString("token_refresh");
         }
     }
 

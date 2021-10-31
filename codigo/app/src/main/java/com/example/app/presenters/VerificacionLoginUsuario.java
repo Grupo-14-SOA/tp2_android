@@ -16,7 +16,6 @@ public class VerificacionLoginUsuario extends BroadcastReceiver {
     private VerificacionUserLoginActivity view;
     private Intent intentServiceLogin;
 
-
     public VerificacionLoginUsuario(VerificacionUserLoginActivity view) {
         this.user = new User();
         this.view = view;

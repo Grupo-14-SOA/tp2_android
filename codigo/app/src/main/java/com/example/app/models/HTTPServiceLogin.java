@@ -12,9 +12,21 @@ public class HTTPServiceLogin extends HTTPService{
     // Nombre del thread usado para debugging
     private static final String class_name = HTTPServiceLogin.class.getSimpleName();
     private static final String ENDPOINT = "/api/api/login";
+    private static final String TYPE_EVENTS = "Login usuario";
+    private static final String EVENT_DESCRIPTION = "Se registra en el servidor un login de usuario";
+
+    private Intent intentServiceRegistrarEvento;
 
     public HTTPServiceLogin() {
         super(class_name);
+    }
+
+    private void startHTTPServiceRegistrarEvento() {
+        Evento evento = new Evento(TYPE_EVENTS, EVENT_DESCRIPTION);
+        JSONObject req = evento.getJSONForRergistrarEvento();
+        this.intentServiceRegistrarEvento = new Intent(this, HTTPServiceRegistrarEvento.class);
+        this.intentServiceRegistrarEvento.putExtra("jsonObject", req.toString());
+        startService(this.intentServiceRegistrarEvento);
     }
 
     @Override
@@ -25,23 +37,26 @@ public class HTTPServiceLogin extends HTTPService{
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
                 POST(request);
+                token = response.getString("token");
+                refreshToken = response.getString("token_refresh");
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
-                    i.putExtra("success", false);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Error en envio de request");
                     //Se envian los valores al bradcast reciever del presenter de login
                     sendBroadcast(i);
                 }
-                else if (token.isEmpty()) {
+                else if (!success) {
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
-                    i.putExtra("success", false);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Usuario o contraseña incorrectos");
                     //Se envian los valores al bradcast reciever del presenter de login
                     sendBroadcast(i);
                 }
                 else {
+                    startHTTPServiceRegistrarEvento();
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
-                    i.putExtra("success", true);
+                    i.putExtra("success", success);
                     i.putExtra("mensaje", "Login exitoso");
                     i.putExtra("token", token);
                     i.putExtra("refresh_token", refreshToken);
@@ -54,7 +69,7 @@ public class HTTPServiceLogin extends HTTPService{
             }
         } else {
             Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
-            i.putExtra("success", false);
+            i.putExtra("success", success);
             i.putExtra("mensaje", "No hay  conexión a Internet");
             //Se envian los valores al bradcast reciever del presenter de login
             sendBroadcast(i);
@@ -65,4 +80,10 @@ public class HTTPServiceLogin extends HTTPService{
         return super.getUrl() + ENDPOINT;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(intentServiceRegistrarEvento != null)
+            stopService(intentServiceRegistrarEvento);
+    }
 }
