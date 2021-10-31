@@ -1,44 +1,49 @@
 package com.example.app.presenters;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.ComponentName;
+import android.content.Intent;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import com.example.app.models.HTTPServiceLogin;
+import com.example.app.models.User;
+import com.example.app.views.VerificacionUserLoginActivity;
 
-import com.example.app.models.SMSManager;
-import com.example.app.views.VerificacionSMSActivity;
+import org.json.JSONObject;
 
 public class VerificacionLoginUsuario {
 
     private static final int REQUEST_SEND_SMS = 1;
 
-    private UserLoginManager userLoginManager;
+    private User user;
     private VerificacionUserLoginActivity view;
+    private Intent intentServiceLogin;
 
-    public VerificacionLoginUsuario(VerificacionSMSActivity view) {
-        this.userLoginManager = new UserLoginManager();
+
+    public VerificacionLoginUsuario(VerificacionUserLoginActivity view) {
+        this.user = new User();
         this.view = view;
+        this.intentServiceLogin = new Intent(view, HTTPServiceLogin.class);
     }
 
-    public String getMail() {
-        return this.userLoginManager.getMail();
+    public String getEmail() {
+        return this.user.getEmail();
     }
 
-    public void setMail(String mail) {
-        this.userLoginManager.setMail(mail);
+    public void setEmail(String email) {
+        this.user.setEmail(email);
     }
 
     public String getPass() {
-        return this.userLoginManager.getPass();
+        return this.user.getPass();
     }
 
     public void setPass(String pass) {
-        this.userLoginManager.setPass(pass);
+        this.user.setPass(pass);
     }
 
-    public boolean login(){
-        return this.userLoginManager.validarUsuario();
+    public boolean logIn(){
+        JSONObject req = this.user.getJSONForLogIn();
+        this.intentServiceLogin.putExtra("jsonObject", req.toString());
+        this.view.startService(this.intentServiceLogin);
     }
 
 }

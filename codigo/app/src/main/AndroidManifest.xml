@@ -3,6 +3,9 @@
     package="com.example.app">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +19,12 @@
             android:exported="true" />
         <activity
             android:name=".views.VerificacionCodSMSActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.VerificacionUserLoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.VerificacionUserSignupActivity"
             android:exported="true" />
         <activity
             android:name=".views.MainActivity"

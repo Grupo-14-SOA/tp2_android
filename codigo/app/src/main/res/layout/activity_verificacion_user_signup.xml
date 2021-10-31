@@ -8,41 +8,45 @@
 
     <TextView
         android:id="@+id/textViewInfoUser"
-        android:layout_width="280dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="164dp"
+        android:layout_width="304dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="144dp"
         android:text="Por favor ingrese el usuario y la contraseña con la que se quiere registrar y luego presione registrarme."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="272dp"
         android:text="Registrarme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/editTextMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="244dp"
+        android:layout_height="41dp"
         android:ems="10"
-        android:inputType="Mail"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextPass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewInfoUser"
         app:layout_constraintVertical_bias="0.484" />
+
     <EditText
         android:id="@+id/editTextPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="245dp"
+        android:layout_height="38dp"
         android:ems="10"
-        android:inputType="Contraseña"
+        android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignup"
         app:layout_constraintEnd_toEndOf="parent"

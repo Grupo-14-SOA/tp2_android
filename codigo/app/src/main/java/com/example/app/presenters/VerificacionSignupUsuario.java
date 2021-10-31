@@ -1,42 +1,36 @@
 package com.example.app.presenters;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.example.app.models.SMSManager;
-import com.example.app.views.VerificacionSMSActivity;
+import com.example.app.models.User;
+import com.example.app.views.VerificacionUserSignupActivity;
 
 public class VerificacionSignupUsuario {
 
-    private UserSignupManager userSignupManager;
+    private User user;
     private VerificacionUserSignupActivity view;
 
-    public VerificacionSignupUsuario(VerificacionSMSActivity view) {
-        this.userSignupManager = new UserSignupManager();
+    public VerificacionSignupUsuario(VerificacionUserSignupActivity view) {
+        this.user = new User();
         this.view = view;
     }
 
-    public String getMail() {
-        return this.userLoginManager.getMail();
+    public String getEmail() {
+        return this.user.getEmail();
     }
 
-    public void setMail(String mail) {
-        this.userSignupManager.setMail(mail);
+    public void setEmail(String mail) {
+        this.user.setEmail(mail);
     }
 
     public String getPass() {
-        return this.userSignupManager.getPass();
+        return this.user.getPass();
     }
 
     public void setPass(String pass) {
-        this.userSignupManager.setPass(pass);
+        this.user.setPass(pass);
     }
 
-    public boolean signup(){
-        return this.userSignupManager.registrarUsuario();
+    public boolean signUp(){
+        return this.user.registrarUsuario();
     }
 
 }

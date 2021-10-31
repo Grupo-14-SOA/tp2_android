@@ -2,6 +2,7 @@ package com.example.app.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,20 +43,17 @@ public class VerificacionCodSMSActivity extends AppCompatActivity {
                 }
                 else{
                     // Ejecuto la actividad del login
-                    this.lanzarVerificarUserLogin();
+                    lanzarVerificarUserLogin();
 
                 }
             }
         });
     }
 
-    public void setPresenter(VerificacionSMS presenter){
-        this.presenter = presenter;
-    }
-
     public void lanzarVerificarUserLogin(){
-        Intent intent = new Intent(this, VerificacionLoginUsuario.class);
+        Intent intent = new Intent(this, VerificacionUserLoginActivity.class);
         this.startActivity(intent);
+        finish();
     }
 
 
