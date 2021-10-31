@@ -55,7 +55,7 @@ public class HTTPServiceSignup extends HTTPService{
         } else {
             Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
             i.putExtra("success", false);
-            i.putExtra("mensaje", "No hay  conexión a Internet");
+            i.putExtra("mensaje", "No hay conexión a Internet");
             //Se envian los valores al bradcast reciever del presenter de login
             sendBroadcast(i);
         }

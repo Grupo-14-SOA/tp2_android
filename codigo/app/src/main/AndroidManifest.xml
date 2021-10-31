@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
+            android:name=".views.RefrescarTokenActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.EnvioSMSActivity"
             android:exported="true" />
         <activity
