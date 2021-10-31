@@ -41,10 +41,11 @@ public class VerificacionLoginUsuario extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // Método para recibir el resultado del servicio de login
         boolean success = intent.getBooleanExtra("success", false);
-        String mensaje= intent.getStringExtra("mensaje");
+        String mensaje = intent.getStringExtra("mensaje");
         this.view.mostrarToastMake(mensaje);
         if (success) {
             //Ejecuto método de llamado de siguiente activity
+            this.view.lanzarActivityPrincipal(intent.getStringExtra("token"), intent.getStringExtra("refresh_token"));
         }
     }
 }

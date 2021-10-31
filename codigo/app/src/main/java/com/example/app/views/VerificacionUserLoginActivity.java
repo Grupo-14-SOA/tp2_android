@@ -51,8 +51,7 @@ public class VerificacionUserLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void configurarBroadcastReciever()
-    {
+    private void configurarBroadcastReciever() {
         //Metodo que registra un broadcast receiver para comunicar el servicio que recibe los
         //mensajes del servidor con el presenter de esta activity
         //Se registra la  accion LOGIN_RESPONSE, para que cuando el servicio de login la ejecute
@@ -67,14 +66,15 @@ public class VerificacionUserLoginActivity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void lanzarActivity(){
+    public void lanzarActivityPrincipal(String token, String refresh_token) {
         // Método a ser llamado desde el presenter para ejecutar la siguiente actividad
-        //Intent intent = new Intent(this, .class);
-        //this.startActivity(intent);
+        Intent intentActivityPrincipal = new Intent(this, ActivityPrincipal.class);
+        intentActivityPrincipal.putExtra("token", token);
+        intentActivityPrincipal.putExtra("refresh_token", refresh_token);
+        startActivity(intentActivityPrincipal);
     }
 
-    public void mostrarToastMake(String msg)
-    {
+    public void mostrarToastMake(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
