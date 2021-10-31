@@ -1,6 +1,9 @@
 package com.example.app.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +17,14 @@ public class VerificacionUserSignupActivity extends AppCompatActivity {
 
     private VerificacionSignupUsuario presenter;
     private Button buttonSignup;
+    private EditText editTextNombre;
+    private EditText editTextApellido;
+    private EditText editTextDNI;
     private EditText editTextMail;
     private EditText editTextPass;
+    private EditText editTextComision;
+    private EditText editTextGrupo;
+    public IntentFilter filtro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,28 +33,45 @@ public class VerificacionUserSignupActivity extends AppCompatActivity {
 
         buttonSignup = findViewById(R.id.buttonSignup);
 
-        editTextMail = findViewById(R.id.editTextMail);  
+        editTextNombre = findViewById(R.id.editTextNombre);
+        editTextApellido = findViewById(R.id.editTextApellido);
+        editTextDNI = findViewById(R.id.editTextDNI);
+        editTextMail = findViewById(R.id.editTextMail);
         editTextPass = findViewById(R.id.editTextPass);
+        editTextComision = findViewById(R.id.editTextComision);
+        editTextGrupo = findViewById(R.id.editTextGrupo);
 
         presenter = new VerificacionSignupUsuario(this);
+        configurarBroadcastReciever();
 
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                presenter.setNombre(editTextNombre.getText().toString());
+                presenter.setApellido(editTextApellido.getText().toString());
+                presenter.setDni(editTextDNI.getText().toString());
                 presenter.setEmail(editTextMail.getText().toString());
                 presenter.setPass(editTextPass.getText().toString());
+                presenter.setComision(editTextComision.getText().toString());
+                presenter.setGrupo(editTextGrupo.getText().toString());
                 // Trato de registrarme, en caso de poder registrarme correctamente vuelvo a la actividad del login
-                if(presenter.signUp()){
-                    // Este mensaje tengo duda si tendria que estar aca o si directamente habria que tirar el finish
-                    Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Hubo unerror al quere registrar el usuario, intente nuevamente", Toast.LENGTH_LONG).show();
-                }
+                presenter.signUp();
             }
         });
-
     }
 
+    //Metodo que crea y configurar un broadcast receiver para comunicar el servicio que recibe los mensaje del servidor
+    //con la activity principal
+    private void configurarBroadcastReciever()
+    {
+        //se asocia(registra) la  accion RESPUESTA_OPERACION, para que cuando el Servicio de recepcion la ejecute
+        //se invoque automaticamente el OnRecive del objeto receiver
+        filtro = new IntentFilter("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
+        filtro.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(presenter, filtro);
+    }
 
+    public void mostrarToastMake(String msg)
+    {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 }

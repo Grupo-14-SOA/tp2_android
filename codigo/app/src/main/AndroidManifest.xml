@@ -40,6 +40,10 @@
             android:name=".models.HTTPServiceLogin"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".models.HTTPServiceSignup"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
