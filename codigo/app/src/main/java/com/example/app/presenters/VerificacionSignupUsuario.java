@@ -68,4 +68,8 @@ public class VerificacionSignupUsuario extends BroadcastReceiver {
             this.view.finish();
         }
     }
+
+    public void stopAll(){
+        this.view.stopService(intentServiceSignup);
+    }
 }

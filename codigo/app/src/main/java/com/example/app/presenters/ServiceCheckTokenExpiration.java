@@ -16,7 +16,7 @@ public class ServiceCheckTokenExpiration extends IntentService {
     private static final String class_name = ServiceCheckTokenExpiration.class.getSimpleName();
     private ScheduledExecutorService scheduler;
     private Intent intentRefresh;
-    private static final int INITIAL_DELAY = 1, PERIOD = 1;
+    private static final int INITIAL_DELAY = 15, PERIOD = 15;
 
     public ServiceCheckTokenExpiration() {
         super(class_name);

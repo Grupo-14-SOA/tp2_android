@@ -78,4 +78,9 @@ public class VerificacionUserLoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.stopAll();
+    }
 }

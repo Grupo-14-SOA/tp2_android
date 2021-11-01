@@ -47,4 +47,8 @@ public class VerificacionLoginUsuario extends BroadcastReceiver {
             this.view.lanzarActivityPrincipal(intent.getStringExtra("token"), intent.getStringExtra("refresh_token"));
         }
     }
+
+    public void stopAll(){
+        this.view.stopService(intentServiceLogin);
+    }
 }

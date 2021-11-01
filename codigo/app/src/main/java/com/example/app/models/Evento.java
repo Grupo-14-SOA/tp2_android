@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class Evento {
 
-    private static final String ENV = "TEST";
+    private static final String ENV = "PROD";
 
     private String typeEvents;
     private String description;
