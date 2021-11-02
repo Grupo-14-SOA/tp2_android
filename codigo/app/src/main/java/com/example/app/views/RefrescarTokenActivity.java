@@ -16,7 +16,7 @@ import com.example.app.presenters.ServiceCheckTokenExpiration;
 public class RefrescarTokenActivity extends AppCompatActivity {
 
     private Intent intentPrevio, intentSalir, intentServiceCheckTokenExpiration, intentActivityPrincipal;
-    private Button botonSalir, botonRefrescar;
+    private Button botonRefrescar;
     private RefrescarToken presenter;
     private String refreshToken;
 
@@ -25,7 +25,6 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrescar_token);
 
-        botonSalir = findViewById(R.id.buttonSalir);
         botonRefrescar = findViewById(R.id.buttonRefrescar);
         intentSalir = new Intent(this, VerificacionUserLoginActivity.class);
         intentServiceCheckTokenExpiration = new Intent(this, ServiceCheckTokenExpiration.class);
@@ -35,13 +34,6 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         refreshToken = intentPrevio.getStringExtra("refresh_token");
 
         presenter = new RefrescarToken(this, refreshToken);
-
-        botonSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                salirRefresh();
-            }
-        });
 
         botonRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +49,7 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         startActivity(intentActivityPrincipal);
     }
 
-    public void salirRefresh() {
+    public synchronized void salirRefresh() {
         stopService(intentServiceCheckTokenExpiration);
         startActivity(intentSalir);
     }
@@ -70,5 +62,11 @@ public class RefrescarTokenActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.unregisterListener();
     }
 }
