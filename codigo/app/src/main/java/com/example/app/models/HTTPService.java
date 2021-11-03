@@ -47,8 +47,7 @@ public abstract class HTTPService extends IntentService {
             HttpURLConnection connection = connectionManager.abrirConexion(this.url);
             this.setConnectionHeadersPOST(connection);
 
-            //Se crea un paquete JSON que indica el estado(encendido o apagado) del led que se desea
-            //modificar. Este paquete JSON se escribe en el campo body del mensaje POST
+            //Este paquete JSON se escribe en el campo body del mensaje POST
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
 
             // Loggeo el request enviado en el POST

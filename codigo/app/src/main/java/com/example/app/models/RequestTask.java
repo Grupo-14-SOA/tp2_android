@@ -58,8 +58,6 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
             HttpURLConnection connection = connectionManager.abrirConexion(this.url);
             this.setConnectionHeadersPUT(connection);
 
-            //Se crea un paquete JSON que indica el estado(encendido o apagado) del led que se desea
-            //modificar. Este paquete JSON se escribe en el campo body del mensaje POST
             connection.getOutputStream();
 
             //Se envia el request al Servidor
