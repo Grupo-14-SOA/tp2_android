@@ -2,18 +2,18 @@ package com.example.app.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.example.app.R;
-import com.example.app.presenters.ServiceCheckTokenExpiration;
+import com.example.app.presenters.Principal;
 
 public class ActivityPrincipal extends AppCompatActivity {
 
-    private Intent intentPrevio, intentServiceCheckTokenExpiration;
-    private String token, refreshToken;
+    private Intent intentPrevio;
+    private Principal presenter;
+    public IntentFilter filtro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +21,19 @@ public class ActivityPrincipal extends AppCompatActivity {
         setContentView(R.layout.activity_principal);
 
         intentPrevio = getIntent();
-        token = intentPrevio.getStringExtra("token");
-        refreshToken = intentPrevio.getStringExtra("refresh_token");
+        String refreshToken = intentPrevio.getStringExtra("refresh_token");
 
-        intentServiceCheckTokenExpiration = new Intent(this, ServiceCheckTokenExpiration.class);
-        intentServiceCheckTokenExpiration.putExtra("refresh_token", refreshToken);
-
-        if (!isMyServiceRunning(ServiceCheckTokenExpiration.class))
-            startService(intentServiceCheckTokenExpiration);
+        presenter = new Principal(this, refreshToken);
+        configurarBroadcastReciever();
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
+    private void configurarBroadcastReciever() {
+        //Metodo que registra un broadcast receiver para comunicar el servicio que recibe los
+        //mensajes del servidor con el presenter de esta activity
+        //Se registra la  accion LOGOUT_APP, para que cuando la activity de refrescar token
+        //la ejecute se invoque automaticamente el OnRecive del presenter
+        filtro = new IntentFilter("com.example.intentservice.intent.action.STOP_CHECK_TOKEN");
+        filtro.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(presenter, filtro);
     }
 }

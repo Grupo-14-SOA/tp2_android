@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public abstract class HTTPService extends IntentService {
 
@@ -23,6 +26,7 @@ public abstract class HTTPService extends IntentService {
     protected JSONObject response;
     protected Exception exception;
     protected boolean success;
+    private DatabaseHandler db;
 
     public HTTPService(String class_name) {
         // Nombre del thread usado para debugging
@@ -33,6 +37,27 @@ public abstract class HTTPService extends IntentService {
         this.refreshToken = "";
         this.success = false;
         this.connectionManager = new ConnectionManager(this);
+        this.response = null;
+        this.request = null;
+        this.db = new DatabaseHandler(this);
+    }
+
+    protected void updateOrCreateMetrica(String tipoMetrica) {
+        // Metodo a ser heredado por las clases hijas para crear o actualizar una metrica
+        // Obtengo la fecha actual
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        String fecha = sdf.format(c.getTime());
+        // Busco una metrica con el tipo dado por la clase hija y la fecha actual
+        Metrica metrica = db.getMetrica(tipoMetrica, fecha);
+        if (metrica != null) {
+            // Si existe la actualizo
+            metrica.setValor(metrica.getValor() + 1);
+            db.updateMetricaValor(metrica);
+        } else {
+            // Si no existe la creo
+            db.agregarMetrica(new Metrica(tipoMetrica, 1, fecha));
+        }
     }
 
     protected void setConnectionHeadersPOST(HttpURLConnection connection) throws ProtocolException {

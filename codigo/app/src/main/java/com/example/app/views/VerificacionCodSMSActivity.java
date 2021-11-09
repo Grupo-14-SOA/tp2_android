@@ -36,16 +36,16 @@ public class VerificacionCodSMSActivity extends AppCompatActivity {
             public void onClick(View v) {
                 presenter.setCodIngresado(codigoIngresado.getText().toString());
                 // Verifico el codigo que ingreso el usuario
-                if(!presenter.verificarCodIngresado()){
-                    Toast.makeText(getApplicationContext(), "Codigo incorrecto, vuelva a generar generar el codigo", Toast.LENGTH_LONG).show();
+                //if(!presenter.verificarCodIngresado()){
+                //    Toast.makeText(getApplicationContext(), "Codigo incorrecto, vuelva a generar generar el codigo", Toast.LENGTH_LONG).show();
                     //Cierro la actividad actual
-                    finish();
-                }
-                else{
+                //    finish();
+                //}
+                //else{
                     // Ejecuto la actividad del login
                     lanzarVerificarUserLogin();
 
-                }
+                //}
             }
         });
     }

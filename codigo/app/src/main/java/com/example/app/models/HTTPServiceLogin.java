@@ -14,7 +14,7 @@ public class HTTPServiceLogin extends HTTPService{
     private static final String ENDPOINT = "/api/api/login";
     private static final String TYPE_EVENTS = "Login usuario";
     private static final String EVENT_DESCRIPTION = "Se registra en el servidor un login de usuario";
-
+    private static final String TIPO_METRICA = "Cantidad de inicios de sesion";
     private Intent intentServiceRegistrarEvento;
 
     public HTTPServiceLogin() {
@@ -29,6 +29,10 @@ public class HTTPServiceLogin extends HTTPService{
         startService(this.intentServiceRegistrarEvento);
     }
 
+    protected void updateOrCreateMetrica() {
+        super.updateOrCreateMetrica(TIPO_METRICA);
+    }
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if(connectionManager.hayConexion()) {
@@ -37,8 +41,6 @@ public class HTTPServiceLogin extends HTTPService{
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
                 POST(request);
-                token = response.getString("token");
-                refreshToken = response.getString("token_refresh");
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
                     i.putExtra("success", success);
@@ -54,6 +56,9 @@ public class HTTPServiceLogin extends HTTPService{
                     sendBroadcast(i);
                 }
                 else {
+                    token = response.getString("token");
+                    refreshToken = response.getString("token_refresh");
+                    updateOrCreateMetrica();
                     startHTTPServiceRegistrarEvento();
                     Intent i = new Intent("com.example.intentservice.intent.action.LOGIN_RESPONSE");
                     i.putExtra("success", success);

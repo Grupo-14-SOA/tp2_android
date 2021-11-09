@@ -12,9 +12,16 @@ public class HTTPServiceSignup extends HTTPService{
     // Nombre del thread usado para debugging
     private static final String class_name = HTTPServiceSignup.class.getSimpleName();
     private static final String ENDPOINT = "/api/api/register";
+    private static final String TIPO_METRICA = "Cantidad de nuevos usuarios";
+
+    private DatabaseHandler db;
 
     public HTTPServiceSignup() {
         super(class_name);
+    }
+
+    protected void updateOrCreateMetrica() {
+        super.updateOrCreateMetrica(TIPO_METRICA);
     }
 
     @Override
@@ -25,8 +32,6 @@ public class HTTPServiceSignup extends HTTPService{
                     request = new JSONObject(intent.getStringExtra("jsonObject"));
                 }
                 POST(request);
-                token = response.getString("token");
-                refreshToken = response.getString("token_refresh");
                 if (exception != null) {
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
                     i.putExtra("success", success);
@@ -42,6 +47,9 @@ public class HTTPServiceSignup extends HTTPService{
                     sendBroadcast(i);
                 }
                 else {
+                    token = response.getString("token");
+                    refreshToken = response.getString("token_refresh");
+                    updateOrCreateMetrica();
                     Intent i = new Intent("com.example.intentservice.intent.action.SIGNUP_RESPONSE");
                     i.putExtra("success", success);
                     i.putExtra("mensaje", "Usuario registrado exitosamente");

@@ -17,7 +17,6 @@ import java.util.concurrent.Semaphore;
 public class RefrescarToken implements SensorEventListener {
 
     private static final int UMBRAL_AGITACION = 1600, INTERVALO = 100, ESCALA = 10000;
-    private final Semaphore available = new Semaphore(1, true);
     private final Sensor acelerometro;
     private final SensorManager accelerometerManager;
 
@@ -42,7 +41,7 @@ public class RefrescarToken implements SensorEventListener {
         this.accelerometerManager.unregisterListener(this, acelerometro);
     }
 
-    public synchronized void ejecutarTask() {
+    public void ejecutarTask() {
         this.model.execute();
     }
 

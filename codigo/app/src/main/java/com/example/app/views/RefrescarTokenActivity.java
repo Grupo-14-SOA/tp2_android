@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.presenters.RefrescarToken;
-import com.example.app.presenters.ServiceCheckTokenExpiration;
+import com.example.app.models.ServiceCheckTokenExpiration;
 
 public class RefrescarTokenActivity extends AppCompatActivity {
 
@@ -49,8 +49,15 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         startActivity(intentActivityPrincipal);
     }
 
-    public synchronized void salirRefresh() {
-        stopService(intentServiceCheckTokenExpiration);
+    private void sendBroadcastToStopCheckToken() {
+        Intent iserv = new Intent("com.example.intentservice.intent.action.STOP_CHECK_TOKEN");
+        iserv.putExtra("stop_service", true);
+        //Se envian los valores al bradcast reciever del presenter de la activity principal
+        sendBroadcast(iserv);
+    }
+
+    public void salirRefresh() {
+        sendBroadcastToStopCheckToken();
         startActivity(intentSalir);
     }
 

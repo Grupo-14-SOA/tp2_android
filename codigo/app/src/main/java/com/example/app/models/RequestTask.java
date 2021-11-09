@@ -58,8 +58,6 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
             HttpURLConnection connection = connectionManager.abrirConexion(this.url);
             this.setConnectionHeadersPUT(connection);
 
-            connection.getOutputStream();
-
             //Se envia el request al Servidor
             connection.connect();
 
