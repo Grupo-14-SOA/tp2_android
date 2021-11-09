@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.presenters.RefrescarToken;
-import com.example.app.models.ServiceCheckTokenExpiration;
+
 
 public class RefrescarTokenActivity extends AppCompatActivity {
 
-    private Intent intentPrevio, intentSalir, intentServiceCheckTokenExpiration, intentActivityPrincipal;
+    private Intent intentPrevio, intentSalir, intentActivityPrincipal;
     private Button botonRefrescar;
     private RefrescarToken presenter;
     private String refreshToken;
@@ -27,7 +27,6 @@ public class RefrescarTokenActivity extends AppCompatActivity {
 
         botonRefrescar = findViewById(R.id.buttonRefrescar);
         intentSalir = new Intent(this, VerificacionUserLoginActivity.class);
-        intentServiceCheckTokenExpiration = new Intent(this, ServiceCheckTokenExpiration.class);
         intentActivityPrincipal = new Intent(this, ActivityPrincipal.class);
 
         intentPrevio = getIntent();
@@ -38,7 +37,14 @@ public class RefrescarTokenActivity extends AppCompatActivity {
         botonRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.ejecutarTask();
+                Thread th = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        presenter.ejecutarTask();
+                    }
+                };
+                th.start();
             }
         });
     }

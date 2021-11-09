@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.util.concurrent.Semaphore;
 
 public class RequestTask extends AsyncTask<Void, Void, Void> {
 
@@ -39,7 +40,7 @@ public class RequestTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        enviarPeticion();
+        this.enviarPeticion();
         return null;
     }
 

@@ -24,6 +24,7 @@ public class RefrescarToken implements SensorEventListener {
     private RequestTask model;
     private float ultX, ultY, ultZ;
     private long ultActualizacion;
+    private final Semaphore semaforo = new Semaphore(1);
 
     public RefrescarToken(RefrescarTokenActivity view, String refreshToken) {
         this.view = view;
@@ -42,13 +43,21 @@ public class RefrescarToken implements SensorEventListener {
     }
 
     public void ejecutarTask() {
-        this.model.execute();
+        try {
+            if (semaforo.availablePermits() > 0) {
+                this.semaforo.acquire();
+                this.model.execute();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void actualizarActivity(Intent intent) {
         boolean success = intent.getBooleanExtra("success", false);
         String mensaje = intent.getStringExtra("mensaje");
         this.view.mostrarToastMake(mensaje);
+        this.semaforo.release();
         if (success) {
             //Ejecuto método de llamado de siguiente activity
             this.view.iniciarActivityPrincipal(intent);
