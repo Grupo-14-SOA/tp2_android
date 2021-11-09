@@ -16,7 +16,7 @@ public class ServiceCheckTokenExpiration extends IntentService {
     private ScheduledFuture task;
     private Intent intentRefresh;
     private String refreshToken;
-    private static final int INITIAL_DELAY = 1, PERIOD = 1;
+    private static final int INITIAL_DELAY = 15, PERIOD = 15;
 
     public ServiceCheckTokenExpiration() {
         super(class_name);
