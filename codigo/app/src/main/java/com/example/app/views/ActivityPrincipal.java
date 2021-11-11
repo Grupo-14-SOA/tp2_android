@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.app.R;
 import com.example.app.presenters.Principal;
@@ -13,7 +15,8 @@ public class ActivityPrincipal extends AppCompatActivity {
 
     private Intent intentPrevio;
     private Principal presenter;
-    public IntentFilter filtro;
+    private IntentFilter filtro;
+    private Button buttonScanQR, buttonVerMenus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,22 @@ public class ActivityPrincipal extends AppCompatActivity {
 
         presenter = new Principal(this, refreshToken);
         configurarBroadcastReciever();
+
+        buttonScanQR = findViewById(R.id.buttonScanQR);
+        buttonVerMenus = findViewById(R.id.buttonVerMenus);
+
+        buttonScanQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityPrincipal.this, EscanearQRActivity.class));
+            }
+        });
+        buttonVerMenus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityPrincipal.this, MenusActivity.class));
+            }
+        });
     }
 
     private void configurarBroadcastReciever() {
