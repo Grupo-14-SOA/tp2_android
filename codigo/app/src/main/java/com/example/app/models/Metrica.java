@@ -72,4 +72,9 @@ public class Metrica {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return tipo +  " el dia " + this.getFecha() + ": " + valor;
+    }
 }

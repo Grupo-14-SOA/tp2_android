@@ -1,12 +1,9 @@
 package com.example.app.views;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +29,7 @@ public class MenusActivity extends AppCompatActivity {
         listaMediciones = new ArrayList<>();
         llenarLista();
 
-        lista = findViewById(R.id.listaMediciones);
+        lista = findViewById(R.id.listaMenus);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaMediciones);
 
         lista.setAdapter(arrayAdapter);

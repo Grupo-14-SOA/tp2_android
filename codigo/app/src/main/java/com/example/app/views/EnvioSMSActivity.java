@@ -39,7 +39,7 @@ public class EnvioSMSActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "¡Ingrese un número de teléfono!", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    //presenter.enviarSMS(numCelular.getText().toString(), permisoConcedido);
+                    presenter.enviarSMS(numCelular.getText().toString(), permisoConcedido);
                     lanzarVerificarCodigo();
                 }
             }
