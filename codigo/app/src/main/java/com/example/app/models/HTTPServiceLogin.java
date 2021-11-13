@@ -25,6 +25,7 @@ public class HTTPServiceLogin extends HTTPService{
         Evento evento = new Evento(TYPE_EVENTS, EVENT_DESCRIPTION);
         JSONObject req = evento.getJSONForRergistrarEvento();
         this.intentServiceRegistrarEvento = new Intent(this, HTTPServiceRegistrarEvento.class);
+        this.intentServiceRegistrarEvento.putExtra("token", token);
         this.intentServiceRegistrarEvento.putExtra("jsonObject", req.toString());
         startService(this.intentServiceRegistrarEvento);
     }
